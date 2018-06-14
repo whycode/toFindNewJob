@@ -60,6 +60,132 @@ https://www.coinbase.com/
 
 找零
 
+创建交易输出
+
+
+seamless    adj. 无缝的；无缝合线的；无伤痕的
+
+
+而比特币中的 "谜题" 是基于哈希加密算法的，其展现了相似的特性：非对称地，它解起来困难而验证很容易，并且它的困难度可以调整。
+
+
+块高度是区块链接在主链的个数，也就是连接在区块链上的块数。
+
+简易支付验证
+
+git clone https://github.com/bitcoin/bitcoin.git
+
+cd bitcoin
+
+git tag  
+
+带有rc后缀的是预发行版本，可以用来测试。没有后缀的稳定版本可以直接在产品环境上运行。
+
+git checkout 某个tag
+
+
+Windows平台的说明可以在doc目录下找到，分别是build-osx.md或是build-msw.md。
+
+Bitcoin is a free open source peer-to-peer electronic cash system that is
+completely decentralized, without the need for a central server or trusted
+parties.  Users hold the crypto keys to their own money and transact directly
+with each other, with the help of a P2P network to check for double-spending.
+
+authgen.sh脚本
+
+
+比特币的构建过程   autogen/conigure/make
+
+./autogen.sh
+
+configure脚本
+
+./conigure --help
+
+--enable-FEATURE和--disable-FEATURE选项
+
+./configure
+
+make
+
+make install
+如果一切顺利，bitcoind现在已经编译完成。最后一步就是通过make命令，安装 bitcoind 可执行文件到你的系统路径
+
+which bitcoind
+
+which bitcoin-cli
+
+通过在终端输入bitcoind就可以运行bitcoind了
+
+在.bitcoin/bitcoin.conf的文件，输入用户名和密码
+
+bitcoind --help
+
+bitcoind -daemon
+
+
+bitcoin-cli   getinfo
+
+比特币 getinfo RPC命令显示关于比特币网络节点、钱包、区块链数据库状态的基础信息。使用 bitcoin-cli 运行它.
+
+钱包设置及加密
+encryptwallet     walletpassphrase
+
+想解锁钱包，要使用 walletpassphrase 命令。 walletpassphrase 命令需要两个参数-密码，和多久钱包会再次被自动锁定的秒数数字（计时器）：
+bitcoin-cli walletpassphrase foo 360
+
+
+钱包备份：bitcoin-cli backupwallet wallet.backup
+
+重新加载备份文件：bitcoin-cli importwallet wallet.backup
+
+dumpwallet命令用于将钱包转储为人类可读的文本文件
+bitcoin-cli dumpwallet wallet.txt
+
+bitcoin-cli getnewaddress
+
+bitcoin-cli getreceivedbyaddress  1hvzSofGwT8cjb8JU7nBsCSfEVQX5u9CL  0
+
+整个钱包接收到的交易可以通过使用listtransactions命令展示出来
+bitcoin-cli listtransactions
+
+我们可以使用getaddressesbyaccount命令列出整个钱包的所有地址
+bitcoin-cli getaddressesbyaccount ""
+
+getbalance命令将显示所有经过至少minconf个确认的交易加和后的余额
+bitcoin-cli getbalance
+
+交易延展性
+
+gettransaction命令通过交易哈希值获取一笔交易，
+$bitcoin-cli gettransaction 9ca8f969bd3ef5ec2a8685660fdbf7a8bd365524c2e1fc66c309acbae2c14ae3
+
+用 gettransaction 命令显示的交易格式为简化格式。若要得到整个交易代码并且将之解码，我们将使用两个命令： getrawtransaction 和 decoderawtransaction 。
+
+比特币核心默认建立包含仅与用户钱包相关交易的数据库。
+
+getblock命令把区块哈希值作为参数来查询对应的区块
+
+getblockhash命令通过区块高度来检索一个区块，这样需要将区块高度作为参数，并返回那个区块的区块哈希值
+
+listunspent   gettxout    createrawtransaction    decoderawtransaction
+
+signrawtransaction     sendrawtransaction
+
+
+比特币的交易是基于花费“输出”上的，即上一笔交易的支出，整个交易在地址之间转移所有权。我们的钱包现在收到了一笔向我们钱包地址发来的钱（输出）。一旦它被确定之后，那笔钱就属于我们了。
+
+
+bitcoin-cli listunspent
+
+通过参考交易之前的txid和vout指数，交易系统将先前的输出变为本次的输入。我们现在可以创立一个花费第0个vout的易 9ca8f9 的账单。利用他的输入分配成新的输出，即给新地址赋值。
+
+bitcoin-cli gettxout 9ca8f969bd3ef5ec2a8685660fdbf7a8bd365524c2e1fc66c309acbae2c14ae3  0
+
+
+bitcoin-cli getnewaddress 1LnfTndy3qzXGN19Jwscj1T8LR3MVe3JDb
+
+我们可以用createrawtransaction命令去建立一笔交易
 
 
 
